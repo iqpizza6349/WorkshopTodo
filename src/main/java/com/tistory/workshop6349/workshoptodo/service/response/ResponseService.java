@@ -1,7 +1,7 @@
 package com.tistory.workshop6349.workshoptodo.service.response;
 
-import com.tistory.workshop6349.workshoptodo.controller.ListResult;
-import com.tistory.workshop6349.workshoptodo.controller.SingleResult;
+import com.tistory.workshop6349.workshoptodo.model.response.ListResult;
+import com.tistory.workshop6349.workshoptodo.model.response.SingleResult;
 import com.tistory.workshop6349.workshoptodo.model.response.CommonResult;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

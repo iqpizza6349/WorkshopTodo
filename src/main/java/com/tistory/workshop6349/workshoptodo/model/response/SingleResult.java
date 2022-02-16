@@ -1,4 +1,4 @@
-package com.tistory.workshop6349.workshoptodo.controller;
+package com.tistory.workshop6349.workshoptodo.model.response;
 
 import com.tistory.workshop6349.workshoptodo.model.response.CommonResult;
 import lombok.Getter;

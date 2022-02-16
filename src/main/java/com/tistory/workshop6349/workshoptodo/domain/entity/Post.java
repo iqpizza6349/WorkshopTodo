@@ -41,5 +41,4 @@ public class Post {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime modifiedDate;
 
-
 }

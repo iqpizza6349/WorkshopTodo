@@ -11,10 +11,6 @@ import java.util.List;
 @Entity
 public class Member {
 
-    /*
-    이메일, 유저 아이디, 비밀번호, 글
-     */
-
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
