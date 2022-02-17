@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -20,8 +20,8 @@ import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
-@Service
-public class TokenService {
+@Component
+public class TokenProvider {
 
     @Value("${spring.jwt.secret-key}")
     private String SECRET_KEY;
@@ -51,8 +51,8 @@ public class TokenService {
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
 
-        // 14일
-        long refreshTokenValidMilliSecond = 14 * 24 * 60 * 60 * 1000L;
+        // 2일
+        long refreshTokenValidMilliSecond = 2 * 24 * 60 * 60 * 1000L;
         String refreshToken = Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setExpiration(new Date(now.getTime() + refreshTokenValidMilliSecond))
@@ -72,7 +72,7 @@ public class TokenService {
 
         if (claims.get(ROLES) == null) {
             // 권한 정보 없음
-            throw new AuthenticationEntrypointException();
+            throw new AuthenticationEntrypointException("권한 정보가 없습니다!");
         }
 
         UserDetails userDetails = customUserDetailService.loadUserByUsername(claims.getSubject());

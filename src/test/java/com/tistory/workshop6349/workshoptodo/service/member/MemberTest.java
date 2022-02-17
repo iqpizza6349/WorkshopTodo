@@ -1,4 +1,4 @@
-package com.tistory.workshop6349.workshoptodo.member;
+package com.tistory.workshop6349.workshoptodo.service.member;
 
 import com.tistory.workshop6349.workshoptodo.domain.dto.MemberLoginDto;
 import com.tistory.workshop6349.workshoptodo.domain.dto.MemberSignUpDto;
@@ -34,8 +34,8 @@ public class MemberTest {
     public void signupTest() {
         // given
         MemberSignUpDto memberSignUpDto = MemberSignUpDto.builder()
-                .email("admin@gmail.com")
-                .username("admin")
+                .email("test@gmail.com")
+                .username("test")
                 .password("1234")
                 .build();
 
@@ -46,29 +46,6 @@ public class MemberTest {
         Member findMember = memberRepository.findById(id)
                 .orElseThrow();
         Assert.assertEquals(memberSignUpDto.getEmail(), findMember.getEmail());
-    }
-
-    @Test
-    @Order(2)
-    public void loginTest() {
-        // given
-        MemberSignUpDto memberSignUpDto = MemberSignUpDto.builder()
-                .email("admin@gmail.com")
-                .username("admin")
-                .password("1234")
-                .build();
-
-        // when
-        memberService.signUp(memberSignUpDto);
-
-        MemberLoginDto memberLoginDto = MemberLoginDto.builder()
-                .email("admin@gmail.com")
-                .password("1234")
-                .build();
-
-        // when
-        TokenDto tokenDto = memberService.login(memberLoginDto);
-        log.info("{}", tokenDto);
     }
 
 }

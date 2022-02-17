@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Collections;
 
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
@@ -29,6 +30,7 @@ public class MemberSignUpDto {
                 .email(email)
                 .username(username)
                 .password(passwordEncoder.encode(password))
+                .roles(Collections.singletonList("ROLE_MEMBER"))
                 .build();
     }
 

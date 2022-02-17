@@ -1,7 +1,6 @@
 package com.tistory.workshop6349.workshoptodo.advice;
 
-import com.tistory.workshop6349.workshoptodo.advice.exception.AlreadyEmailExistedException;
-import com.tistory.workshop6349.workshoptodo.advice.exception.AlreadyUsernameExistedException;
+import com.tistory.workshop6349.workshoptodo.advice.exception.*;
 import com.tistory.workshop6349.workshoptodo.model.response.CommonResult;
 import com.tistory.workshop6349.workshoptodo.service.response.ResponseService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -23,7 +21,7 @@ public class ExceptionAdvice {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    protected CommonResult defaultException(HttpServletRequest request, Exception e) throws IOException {
+    protected CommonResult defaultException(HttpServletRequest request, Exception e) {
         log.info(e.getMessage());
         return responseService.getFailResult(
                 -1, "알 수 없는 오류가 발생했습니다."
@@ -32,7 +30,7 @@ public class ExceptionAdvice {
     
     @ExceptionHandler(AlreadyEmailExistedException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected CommonResult alreadyEmailExistedException(HttpServletRequest request, Exception e) throws IOException {
+    protected CommonResult alreadyEmailExistedException(HttpServletRequest request, Exception e) {
         return responseService.getFailResult(
                 -10, e.getMessage()
         );
@@ -40,9 +38,41 @@ public class ExceptionAdvice {
 
     @ExceptionHandler(AlreadyUsernameExistedException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected CommonResult alreadyUsernameExistedException(HttpServletRequest request, Exception e) throws IOException {
+    protected CommonResult alreadyUsernameExistedException(HttpServletRequest request, Exception e) {
         return responseService.getFailResult(
                 -11, e.getMessage()
+        );
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected CommonResult accessDeniedException(HttpServletRequest request, Exception e) {
+        return responseService.getFailResult(
+                -12, e.getMessage()
+        );
+    }
+
+    @ExceptionHandler(AuthenticationEntrypointException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected CommonResult authenticationEntryPointException(HttpServletRequest request, Exception e) {
+        return responseService.getFailResult(
+                -13, e.getMessage()
+        );
+    }
+
+    @ExceptionHandler(MemberLoginFailedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected CommonResult memberLoginFailedException(HttpServletRequest request, Exception e) {
+        return responseService.getFailResult(
+                -14, e.getMessage()
+        );
+    }
+
+    @ExceptionHandler(MemberNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected CommonResult memberNotFoundException(HttpServletRequest request, Exception e) {
+        return responseService.getFailResult(
+                -15, e.getMessage()
         );
     }
 

@@ -20,7 +20,6 @@ public class ResponseService {
     @AllArgsConstructor
     public enum CommonResponse {
         SUCCESS(1, "성공"),
-        DEPRECATED(0, "버전 오류"),
         FAIL(-1, "실패");
 
         private int code;
@@ -92,6 +91,5 @@ public class ResponseService {
         result.setCode(CommonResponse.SUCCESS.getCode());
         result.setMsg(CommonResponse.SUCCESS.getMsg());
     }
-
 
 }

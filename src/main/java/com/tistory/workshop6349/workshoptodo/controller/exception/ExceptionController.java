@@ -15,12 +15,12 @@ public class ExceptionController {
 
     @GetMapping("/entryPoint")
     public CommonResult entrypointException() {
-        throw new AuthenticationEntrypointException();
+        throw new AuthenticationEntrypointException("인증 오류 발생");
     }
 
     @GetMapping("/accessDenied")
     public CommonResult accessDeniedException() {
-        throw new AccessDeniedException();
+        throw new AccessDeniedException("권한 오류 발생");
     }
 
 }

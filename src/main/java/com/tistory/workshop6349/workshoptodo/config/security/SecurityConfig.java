@@ -3,7 +3,7 @@ package com.tistory.workshop6349.workshoptodo.config.security;
 import com.tistory.workshop6349.workshoptodo.advice.exception.CustomAccessDeniedHandler;
 import com.tistory.workshop6349.workshoptodo.advice.exception.CustomAuthenticationEntryPoint;
 import com.tistory.workshop6349.workshoptodo.config.security.filter.TokenAuthenticationFilter;
-import com.tistory.workshop6349.workshoptodo.service.security.TokenService;
+import com.tistory.workshop6349.workshoptodo.service.security.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final TokenService tokenService;
+    private final TokenProvider tokenService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {

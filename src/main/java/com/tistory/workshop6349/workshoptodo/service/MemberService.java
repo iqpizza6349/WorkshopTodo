@@ -9,7 +9,7 @@ import com.tistory.workshop6349.workshoptodo.domain.dto.TokenDto;
 import com.tistory.workshop6349.workshoptodo.domain.entity.Member;
 import com.tistory.workshop6349.workshoptodo.domain.entity.RefreshToken;
 import com.tistory.workshop6349.workshoptodo.domain.repository.RefreshTokenRepository;
-import com.tistory.workshop6349.workshoptodo.service.security.TokenService;
+import com.tistory.workshop6349.workshoptodo.service.security.TokenProvider;
 import com.tistory.workshop6349.workshoptodo.domain.dto.MemberSignUpDto;
 import com.tistory.workshop6349.workshoptodo.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-    private final TokenService tokenService;
+    private final TokenProvider tokenService;
     private final RefreshTokenRepository refreshTokenRepository;
 
     /*
@@ -52,7 +52,7 @@ public class MemberService {
                 .orElseThrow(MemberNotFoundException::new);
 
         if (!passwordEncoder.matches(memberLoginDto.getPassword(), member.getPassword())) {
-            throw new MemberLoginFailedException();
+            throw new MemberLoginFailedException("로그인 정보가 잘못 되었습니다.");
         }
 
         TokenDto tokenDto = tokenService.createTokenDto(member.getId(), member.getRoles());
@@ -65,6 +65,5 @@ public class MemberService {
         refreshTokenRepository.save(refreshToken);
         return tokenDto;
     }
-
 
 }
