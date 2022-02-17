@@ -13,15 +13,15 @@ import javax.validation.constraints.Size;
 public class MemberSignUpDto {
 
     @NotBlank(message = "이메일은 빈칸이 될 수 없습니다!")
-    @Size(min = 8, max = 100)
+    @Size(min = 8, max = 100, message = "이메일은 최소 8자리에서 100자리 입니다.")
     private String email;
 
     @NotBlank(message = "닉네임은 빈칸이 될 수 없습니다!")
-    @Size(min = 4, max = 100)
+    @Size(min = 4, max = 100, message = "유저 이름은 최소 4자리에서 최대 100자리 입니다.")
     private String username;
 
     @NotBlank(message = "비밀번호는 빈칸이 될 수 없습니다!")
-    @Size(min = 4, max = 100)
+    @Size(min = 4, max = 100, message = "비밀번호는 최소 4자리에서 최대 100자리 입니다.")
     private String password;
 
     public Member toEntity(PasswordEncoder passwordEncoder) {
