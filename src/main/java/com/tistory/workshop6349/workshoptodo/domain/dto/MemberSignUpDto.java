@@ -2,6 +2,7 @@ package com.tistory.workshop6349.workshoptodo.domain.dto;
 
 import com.tistory.workshop6349.workshoptodo.domain.entity.Member;
 import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -23,11 +24,11 @@ public class MemberSignUpDto {
     @Size(min = 4, max = 100)
     private String password;
 
-    public Member toEntity(String encodedPassword) {
+    public Member toEntity(PasswordEncoder passwordEncoder) {
         return Member.builder()
                 .email(email)
                 .username(username)
-                .password(encodedPassword)
+                .password(passwordEncoder.encode(password))
                 .build();
     }
 

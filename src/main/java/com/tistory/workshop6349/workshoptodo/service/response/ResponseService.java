@@ -34,6 +34,24 @@ public class ResponseService {
         return result;
     }
 
+    public <T> SingleResult<T> getSingleResult(T data, int code) {
+        SingleResult<T> result = new SingleResult<>();
+        result.setData(data);
+        result.setSuccess(true);
+        result.setCode(code);
+        result.setMsg(CommonResponse.SUCCESS.getMsg());
+        return result;
+    }
+
+    public <T> SingleResult<T> getSingleResult(T data, int code, String msg) {
+        SingleResult<T> result = new SingleResult<>();
+        result.setData(data);
+        result.setSuccess(true);
+        result.setCode(code);
+        result.setMsg(msg);
+        return result;
+    }
+
     public <T> ListResult<T> getListResult(List<T> list) {
         ListResult<T> result = new ListResult<>();
         result.setList(list);

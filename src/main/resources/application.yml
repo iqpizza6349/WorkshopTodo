@@ -23,4 +23,4 @@ spring:
         format_sql: true
 
   jwt:
-    secret-key: k1nM6bsvrOai7EQcl1OQnu8EoPzN4xHeHRt1RwOYMgN7Z8Fsuz8iMEDSajkc3Lz2
+    secret-key: WORKSHOP6349
