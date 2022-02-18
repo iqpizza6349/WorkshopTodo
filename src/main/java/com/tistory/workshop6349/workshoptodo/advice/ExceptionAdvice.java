@@ -76,4 +76,20 @@ public class ExceptionAdvice {
         );
     }
 
+    @ExceptionHandler(AlreadyPostExistedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected CommonResult alreadyPostExistedException(HttpServletRequest request, Exception e) {
+        return responseService.getFailResult(
+                -16, e.getMessage()
+        );
+    }
+
+    @ExceptionHandler(PostNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected CommonResult postNotFoundException(HttpServletRequest request, Exception e) {
+        return responseService.getFailResult(
+                -17, e.getMessage()
+        );
+    }
+
 }

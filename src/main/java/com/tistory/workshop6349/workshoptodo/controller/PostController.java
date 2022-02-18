@@ -7,11 +7,13 @@ import com.tistory.workshop6349.workshoptodo.model.response.SingleResult;
 import com.tistory.workshop6349.workshoptodo.service.PostService;
 import com.tistory.workshop6349.workshoptodo.service.response.ResponseService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/todo")
 @RestController

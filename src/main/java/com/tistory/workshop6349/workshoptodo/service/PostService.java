@@ -3,7 +3,6 @@ package com.tistory.workshop6349.workshoptodo.service;
 import com.tistory.workshop6349.workshoptodo.advice.exception.AlreadyPostExistedException;
 import com.tistory.workshop6349.workshoptodo.advice.exception.MemberNotFoundException;
 import com.tistory.workshop6349.workshoptodo.advice.exception.PostNotFoundException;
-import com.tistory.workshop6349.workshoptodo.domain.dto.MemberResponseDto;
 import com.tistory.workshop6349.workshoptodo.domain.dto.PostDto;
 import com.tistory.workshop6349.workshoptodo.domain.dto.PostModifyDto;
 import com.tistory.workshop6349.workshoptodo.domain.dto.PostResponseDto;
@@ -38,6 +37,7 @@ public class PostService {
         Post post = postDto.toEntity();
         post.setMember(member);
 
+        memberRepository.save(member);
         return postRepository.save(post).getId();
     }
 
@@ -62,18 +62,6 @@ public class PostService {
 
         return new PostResponseDto(postRepository.save(post));
     }
-
-    /*
-    글 수정: 제목 수정
-     */
-
-    /*
-    글 수정: 내용 수정
-     */
-
-    /*
-    글 수정: 전체 수정
-     */
 
     /*
     글 체크

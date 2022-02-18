@@ -1,17 +1,15 @@
 package com.tistory.workshop6349.workshoptodo.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tistory.workshop6349.workshoptodo.domain.entity.Post;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Getter @Setter
-@AllArgsConstructor
+@NoArgsConstructor @AllArgsConstructor
 @Builder
 public class PostDto {
 
@@ -24,6 +22,7 @@ public class PostDto {
     private String content;
 
     @NotNull(message = "회원의 ID는 null일 수 없습니다.")
+    @JsonProperty(value = "member_id")
     private Long memberId;
 
     public Post toEntity() {
