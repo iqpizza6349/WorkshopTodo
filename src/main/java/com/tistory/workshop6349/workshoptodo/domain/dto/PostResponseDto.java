@@ -13,13 +13,13 @@ public class PostResponseDto {
     private final String title;
     private final boolean checked;
     private final LocalDateTime checkedDate;
-    private final Member member;
+    private final String writer;
 
     public PostResponseDto(Post post) {
         this.id = post.getId();
         this.title = post.getTitle();
         this.checked = post.isChecked();
         this.checkedDate = post.getCheckedDate();
-        this.member = post.getMember();
+        this.writer = post.getMember().getUsername();
     }
 }
