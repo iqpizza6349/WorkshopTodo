@@ -20,8 +20,6 @@ public class Post extends BaseTimeEntity {
     @Column(nullable = false, length = 10000)
     private String content;
 
-    private String comment;
-
     private boolean checked;
 
     private LocalDateTime checkedDate;
@@ -29,5 +27,13 @@ public class Post extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn
     private Member member;
+
+    public void setMember(Member member) {
+        if (this.member != null) {
+            this.member.removePost(this);
+        }
+        this.member = member;
+        member.addPost(this);
+    }
 
 }

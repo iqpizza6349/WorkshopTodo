@@ -31,7 +31,7 @@ public class Member implements UserDetails {
     private String password;
 
     @OneToMany(mappedBy = "member")
-    private List<Post> posts;
+    private List<Post> posts = new ArrayList<>();
 
     public void addPost(Post post) {
         posts.add(post);

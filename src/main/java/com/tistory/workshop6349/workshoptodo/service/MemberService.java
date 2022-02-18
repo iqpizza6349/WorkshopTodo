@@ -5,6 +5,7 @@ import com.tistory.workshop6349.workshoptodo.advice.exception.AlreadyUsernameExi
 import com.tistory.workshop6349.workshoptodo.advice.exception.MemberLoginFailedException;
 import com.tistory.workshop6349.workshoptodo.advice.exception.MemberNotFoundException;
 import com.tistory.workshop6349.workshoptodo.domain.dto.MemberLoginDto;
+import com.tistory.workshop6349.workshoptodo.domain.dto.MemberResponseDto;
 import com.tistory.workshop6349.workshoptodo.domain.dto.TokenDto;
 import com.tistory.workshop6349.workshoptodo.domain.entity.Member;
 import com.tistory.workshop6349.workshoptodo.domain.entity.RefreshToken;
@@ -49,7 +50,7 @@ public class MemberService {
     public TokenDto login(MemberLoginDto memberLoginDto) {
 
         Member member = memberRepository.findByEmail(memberLoginDto.getEmail())
-                .orElseThrow(MemberNotFoundException::new);
+                .orElseThrow(() -> new MemberNotFoundException("해당 회원을 찾을 수 없습니다."));
 
         if (!passwordEncoder.matches(memberLoginDto.getPassword(), member.getPassword())) {
             throw new MemberLoginFailedException("로그인 정보가 잘못 되었습니다.");
@@ -65,5 +66,27 @@ public class MemberService {
         refreshTokenRepository.save(refreshToken);
         return tokenDto;
     }
+
+    /*
+    본인 정보 찾기: Id
+     */
+    @Transactional(readOnly = true)
+    public MemberResponseDto findById(long id) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new MemberNotFoundException("해당 회원을 찾을 수 없습니다."));
+        return new MemberResponseDto(member);
+    }
+
+    /*
+    본인 정보 찾기: email
+     */
+    @Transactional(readOnly = true)
+    public MemberResponseDto findByEmail(String email) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new MemberNotFoundException("해당 회원을 찾을 수 없습니다."));
+        return new MemberResponseDto(member);
+    }
+
+
 
 }

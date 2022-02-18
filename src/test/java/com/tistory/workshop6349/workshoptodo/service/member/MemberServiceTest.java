@@ -1,8 +1,6 @@
 package com.tistory.workshop6349.workshoptodo.service.member;
 
-import com.tistory.workshop6349.workshoptodo.domain.dto.MemberLoginDto;
 import com.tistory.workshop6349.workshoptodo.domain.dto.MemberSignUpDto;
-import com.tistory.workshop6349.workshoptodo.domain.dto.TokenDto;
 import com.tistory.workshop6349.workshoptodo.domain.entity.Member;
 import com.tistory.workshop6349.workshoptodo.domain.repository.MemberRepository;
 import com.tistory.workshop6349.workshoptodo.service.MemberService;
@@ -20,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
-public class MemberTest {
+public class MemberServiceTest {
 
     @Autowired
     MemberService memberService;
