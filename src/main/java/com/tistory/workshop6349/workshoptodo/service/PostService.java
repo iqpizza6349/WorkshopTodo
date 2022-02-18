@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @RequiredArgsConstructor
 @Service
 public class PostService {
@@ -37,7 +39,6 @@ public class PostService {
         Post post = postDto.toEntity();
         post.setMember(member);
 
-        memberRepository.save(member);
         return postRepository.save(post).getId();
     }
 
@@ -66,10 +67,37 @@ public class PostService {
     /*
     글 체크
      */
+    @Transactional
+    public PostResponseDto checkPost(PostDto postDto) {
+        Member member = memberRepository.findById(postDto.getMemberId())
+                .orElseThrow(() -> new MemberNotFoundException("회원을 찾지 못하였습니다."));
+
+        // 해당 글의 작성자가 본인인지 파악
+        Post post = postRepository.findByMemberIdAndTitle(member.getId(), postDto.getTitle())
+                .orElseThrow(() -> new PostNotFoundException("글을 찾지 못하였습니다."));
+
+        post.setChecked(true);
+        post.setCheckedDate(LocalDateTime.now());
+
+        return new PostResponseDto(postRepository.save(post));
+    }
 
     /*
     글 삭제
      */
+    @Transactional
+    public void deletePost(PostDto postDto) {
+        Member member = memberRepository.findById(postDto.getMemberId())
+                .orElseThrow(() -> new MemberNotFoundException("회원을 찾지 못하였습니다."));
+
+        // 해당 글의 작성자가 본인인지 파악
+        Post post = postRepository.findByMemberIdAndTitle(member.getId(), postDto.getTitle())
+                .orElseThrow(() -> new PostNotFoundException("글을 찾지 못하였습니다."));
+
+        member.removePost(post);
+
+        postRepository.delete(post);
+    }
 
     /*
     글 찾기: 회원 ID, 글 제목

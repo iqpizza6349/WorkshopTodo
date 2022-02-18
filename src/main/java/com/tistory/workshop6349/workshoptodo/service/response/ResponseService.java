@@ -19,7 +19,7 @@ public class ResponseService {
     @RequiredArgsConstructor
     @AllArgsConstructor
     public enum CommonResponse {
-        SUCCESS(1, "성공"),
+        SUCCESS(200, "성공"),
         FAIL(-1, "실패");
 
         private int code;
@@ -69,6 +69,22 @@ public class ResponseService {
         result.setSuccess(true);
         result.setCode(code);
         result.setMsg(CommonResponse.SUCCESS.getMsg());
+        return result;
+    }
+
+    public CommonResult getSuccessResult(String msg) {
+        CommonResult result = new CommonResult();
+        result.setSuccess(true);
+        result.setCode(CommonResponse.SUCCESS.getCode());
+        result.setMsg(msg);
+        return result;
+    }
+
+    public CommonResult getSuccessResult(int code, String msg) {
+        CommonResult result = new CommonResult();
+        result.setSuccess(true);
+        result.setCode(code);
+        result.setMsg(msg);
         return result;
     }
 

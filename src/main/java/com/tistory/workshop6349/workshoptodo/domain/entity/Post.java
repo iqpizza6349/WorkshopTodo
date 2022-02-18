@@ -30,10 +30,10 @@ public class Post extends BaseTimeEntity {
 
     public void setMember(Member member) {
         if (this.member != null) {
-            this.member.removePost(this);
+            this.member.getPosts().remove(this);
         }
         this.member = member;
-        member.addPost(this);
+        member.getPosts().add(this);
     }
 
 }
