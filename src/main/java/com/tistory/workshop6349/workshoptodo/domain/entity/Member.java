@@ -2,6 +2,8 @@ package com.tistory.workshop6349.workshoptodo.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,6 +30,7 @@ public class Member implements UserDetails {
     private String password;
 
     @OneToMany(mappedBy = "member")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Post> posts = new ArrayList<>();
 
     public void addPost(Post post) {

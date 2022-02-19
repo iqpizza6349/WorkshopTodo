@@ -4,7 +4,6 @@ import com.tistory.workshop6349.workshoptodo.domain.dto.MemberResponseDto;
 import com.tistory.workshop6349.workshoptodo.domain.dto.PostDto;
 import com.tistory.workshop6349.workshoptodo.domain.dto.PostModifyDto;
 import com.tistory.workshop6349.workshoptodo.domain.dto.PostResponseDto;
-import com.tistory.workshop6349.workshoptodo.domain.entity.Post;
 import com.tistory.workshop6349.workshoptodo.service.MemberService;
 import com.tistory.workshop6349.workshoptodo.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -36,22 +34,40 @@ public class PostController {
         return "writeTodo";
     }
 
-//
-//    @PostMapping("/modify")
-//    public PostResponseDto todoModify(PostModifyDto postModifyDto) {
-//        return responseService.getSingleResult(postService.modifyPost(postModifyDto), 200);
-//    }
-//
-//    @PostMapping("/check")
-//    public PostResponseDto todoCheck(PostDto postDto) {
-//        return responseService.getSingleResult(postService.checkPost(postDto));
-//    }
-//
-//    @DeleteMapping("/delete")
-//    public String todoDelete(PostDto postDto) {
-//        postService.deletePost(postDto);
-//        return responseService.getSuccessResult("성공적으로 todo 리스트를 삭제하였습니다.");
-//    }
+    @PostMapping("/modify")
+    public String todoModify(PostModifyDto postModifyDto) {
+        postService.modifyPost(postModifyDto);
+        return "redirect:/todo";
+    }
+
+    @GetMapping("/modify/{title}")
+    public String getModify(@PathVariable String title, Model model, Principal principal) {
+        String email = principal.getName();
+        MemberResponseDto memberResponseDto = memberService.findByEmail(email);
+        PostResponseDto postResponseDto = postService.findByMemberIdAndTitle(memberResponseDto.getId(), title);
+
+        model.addAttribute("title", postResponseDto.getTitle());
+        return "todoModify";
+    }
+
+    @GetMapping("/delete/{title}")
+    public String todoDelete(@PathVariable String title, Principal principal) {
+        String email = principal.getName();
+        MemberResponseDto memberResponseDto = memberService.findByEmail(email);
+
+        postService.deletePost(email, memberResponseDto.getId(), title);
+        return "redirect:/todo";
+    }
+
+    @GetMapping("/check/{title}")
+    public String todoCheck(@PathVariable String title, Principal principal) {
+        String email = principal.getName();
+        MemberResponseDto memberResponseDto = memberService.findByEmail(email);
+
+        postService.checkPost(email, memberResponseDto.getId(), title);
+        return "redirect:/todo";
+    }
+
 
     @GetMapping("")
     public String getMemberTodo(Model model, Principal principal) {

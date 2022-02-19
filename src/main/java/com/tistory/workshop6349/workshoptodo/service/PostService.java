@@ -45,8 +45,8 @@ public class PostService {
     }
 
     @Transactional
-    public PostResponseDto modifyPost(PostModifyDto postModifyDto) {
-        Member member = memberRepository.findById(postModifyDto.getMemberId())
+    public void modifyPost(PostModifyDto postModifyDto) {
+        Member member = memberRepository.findByEmail(postModifyDto.getMemberEmail())
                 .orElseThrow(() -> new MemberNotFoundException("회원을 찾지 못하였습니다."));
 
         // 해당 글의 작성자가 본인인지 파악
@@ -63,37 +63,37 @@ public class PostService {
             post.setContent(postModifyDto.getContent());
         }
 
-        return new PostResponseDto(postRepository.save(post));
+        new PostResponseDto(postRepository.save(post));
     }
 
     /*
     글 체크
      */
     @Transactional
-    public PostResponseDto checkPost(PostDto postDto) {
-        Member member = memberRepository.findByEmail(postDto.getWriterEmail())
+    public void checkPost(String email, long id, String title) {
+        Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new MemberNotFoundException("회원을 찾지 못하였습니다."));
 
         // 해당 글의 작성자가 본인인지 파악
-        Post post = postRepository.findByMemberIdAndTitle(member.getId(), postDto.getTitle())
+        Post post = postRepository.findByMemberIdAndTitle(id, title)
                 .orElseThrow(() -> new PostNotFoundException("글을 찾지 못하였습니다."));
 
         post.setChecked(true);
         post.setCheckedDate(LocalDateTime.now());
 
-        return new PostResponseDto(postRepository.save(post));
+        new PostResponseDto(postRepository.save(post));
     }
 
     /*
     글 삭제
      */
     @Transactional
-    public void deletePost(PostDto postDto) {
-        Member member = memberRepository.findByEmail(postDto.getWriterEmail())
+    public void deletePost(String email, long id, String title) {
+        Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new MemberNotFoundException("회원을 찾지 못하였습니다."));
 
         // 해당 글의 작성자가 본인인지 파악
-        Post post = postRepository.findByMemberIdAndTitle(member.getId(), postDto.getTitle())
+        Post post = postRepository.findByMemberIdAndTitle(id, title)
                 .orElseThrow(() -> new PostNotFoundException("글을 찾지 못하였습니다."));
 
         member.removePost(post);

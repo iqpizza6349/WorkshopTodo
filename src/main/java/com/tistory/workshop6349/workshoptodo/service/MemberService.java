@@ -4,9 +4,12 @@ import com.tistory.workshop6349.workshoptodo.domain.Role;
 import com.tistory.workshop6349.workshoptodo.domain.dto.MemberResponseDto;
 import com.tistory.workshop6349.workshoptodo.domain.entity.Member;
 import com.tistory.workshop6349.workshoptodo.domain.dto.MemberSignUpDto;
+import com.tistory.workshop6349.workshoptodo.domain.entity.Post;
 import com.tistory.workshop6349.workshoptodo.domain.repository.MemberRepository;
+import com.tistory.workshop6349.workshoptodo.domain.repository.PostRepository;
 import com.tistory.workshop6349.workshoptodo.exception.AlreadyEmailExistedException;
 import com.tistory.workshop6349.workshoptodo.exception.MemberNotFoundException;
+import com.tistory.workshop6349.workshoptodo.exception.PostNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,6 +31,7 @@ import java.util.List;
 public class MemberService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
+    private final PostRepository postRepository;
 
     /*
     회원 가입
@@ -39,6 +43,17 @@ public class MemberService implements UserDetailsService {
         }
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         memberRepository.save(memberSignUpDto.toEntity(passwordEncoder));
+    }
+
+    /*
+    회원 삭제
+     */
+    @Transactional
+    public void memberDelete(String email) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new MemberNotFoundException("해당 회원을 찾을 수 없습니다."));
+
+        memberRepository.delete(member);
     }
 
     /*

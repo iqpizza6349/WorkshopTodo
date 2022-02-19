@@ -18,8 +18,7 @@ public class PostModifyDto {
     private String originTitle;
 
     @NotEmpty(message = "회원의 Id는 null이 될 수 없습니다.")
-    @JsonProperty(value = "member_id")
-    private Long memberId;
+    private String memberEmail;
 
     @Nullable
     @JsonProperty(value = "new_title")

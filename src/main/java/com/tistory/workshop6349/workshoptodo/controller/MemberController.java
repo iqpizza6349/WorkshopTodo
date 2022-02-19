@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RequiredArgsConstructor
 @RequestMapping("/member")
 @Controller
@@ -53,6 +55,13 @@ public class MemberController {
     @GetMapping("/info")
     public String getMyInfo() {
         return "info";
+    }
+
+    // 회원 탈퇴
+    @GetMapping("/delete")
+    public String getDelete(Principal principal) {
+        memberService.memberDelete(principal.getName());
+        return "redirect:/member/logout";
     }
 
 }

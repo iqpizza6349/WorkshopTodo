@@ -9,7 +9,7 @@
     <div>
         <form th:action="@{/todo/search}" method="get">
             <label>
-                <input type="text" name="제목" placeholder="TODO 리스트 제목을 입력해주세요.">
+                <input type="text" th:name="keyword" placeholder="TODO 리스트 제목을 입력해주세요.">
             </label>
             <button type="submit">검색하기</button>
         </form>
@@ -31,8 +31,9 @@
                 <td th:text="|${todo.getContent()} - |"></td>
                 <td th:text="| ${todo.getModifiedDate()} |"> </td>
                 <td>
-                    <a th:href="@{/todo/modify}"> 수정 </a>
-                    <a th:href="@{/todo/delete}"> 삭제 </a>
+                    <a th:href="@{/todo/check/{title}(title=${todo.getTitle()})}">체크</a>
+                    <a th:href="@{/todo/modify/{title}(title=${todo.getTitle()})}"> 수정 </a>
+                    <a th:href="@{/todo/delete/{title}(title=${todo.getTitle()})}"> 삭제 </a>
                 </td>
             </tr>
             </tbody>
