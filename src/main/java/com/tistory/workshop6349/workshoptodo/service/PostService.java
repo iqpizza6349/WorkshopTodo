@@ -1,8 +1,5 @@
 package com.tistory.workshop6349.workshoptodo.service;
 
-import com.tistory.workshop6349.workshoptodo.advice.exception.AlreadyPostExistedException;
-import com.tistory.workshop6349.workshoptodo.advice.exception.MemberNotFoundException;
-import com.tistory.workshop6349.workshoptodo.advice.exception.PostNotFoundException;
 import com.tistory.workshop6349.workshoptodo.domain.dto.PostDto;
 import com.tistory.workshop6349.workshoptodo.domain.dto.PostModifyDto;
 import com.tistory.workshop6349.workshoptodo.domain.dto.PostResponseDto;
@@ -10,6 +7,9 @@ import com.tistory.workshop6349.workshoptodo.domain.entity.Member;
 import com.tistory.workshop6349.workshoptodo.domain.entity.Post;
 import com.tistory.workshop6349.workshoptodo.domain.repository.MemberRepository;
 import com.tistory.workshop6349.workshoptodo.domain.repository.PostRepository;
+import com.tistory.workshop6349.workshoptodo.exception.AlreadyPostExistedException;
+import com.tistory.workshop6349.workshoptodo.exception.MemberNotFoundException;
+import com.tistory.workshop6349.workshoptodo.exception.PostNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,7 +46,7 @@ public class PostService {
     public PostResponseDto modifyPost(PostModifyDto postModifyDto) {
         Member member = memberRepository.findById(postModifyDto.getMemberId())
                 .orElseThrow(() -> new MemberNotFoundException("회원을 찾지 못하였습니다."));
-        
+
         // 해당 글의 작성자가 본인인지 파악
         Post post = postRepository.findByMemberIdAndTitle(member.getId(), postModifyDto.getOriginTitle())
                 .orElseThrow(() -> new PostNotFoundException("글을 찾지 못하였습니다."));

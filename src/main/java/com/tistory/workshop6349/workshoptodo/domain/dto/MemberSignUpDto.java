@@ -29,7 +29,6 @@ public class MemberSignUpDto {
     public Member toEntity(PasswordEncoder passwordEncoder) {
         return Member.builder()
                 .email(email)
-                .username(username)
                 .password(passwordEncoder.encode(password))
                 .roles(Collections.singletonList("ROLE_MEMBER"))
                 .posts(new ArrayList<>())

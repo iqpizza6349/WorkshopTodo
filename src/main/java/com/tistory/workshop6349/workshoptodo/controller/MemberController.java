@@ -1,32 +1,58 @@
 package com.tistory.workshop6349.workshoptodo.controller;
 
-import com.tistory.workshop6349.workshoptodo.domain.dto.MemberLoginDto;
 import com.tistory.workshop6349.workshoptodo.domain.dto.MemberSignUpDto;
-import com.tistory.workshop6349.workshoptodo.domain.dto.TokenDto;
-import com.tistory.workshop6349.workshoptodo.model.response.SingleResult;
 import com.tistory.workshop6349.workshoptodo.service.MemberService;
-import com.tistory.workshop6349.workshoptodo.service.response.ResponseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RequestMapping("/member")
-@RestController
+@Controller
 public class MemberController {
 
     private final MemberService memberService;
-    private final ResponseService responseService;
 
     @PostMapping("/signup")
-    public SingleResult<Long> signUp(@RequestBody MemberSignUpDto memberSignUpDto) {
-        Long memberId = memberService.signUp(memberSignUpDto);
-        return responseService.getSingleResult(memberId, 201);
+    public String signUp(MemberSignUpDto memberSignUpDto) {
+        memberService.signUp(memberSignUpDto);
+        return "redirect:/member/login";
     }
-    
-    @PostMapping("/login")
-    public SingleResult<TokenDto> login(@RequestBody MemberLoginDto memberLoginDto) {
-        TokenDto tokenDto = memberService.login(memberLoginDto);
-        return responseService.getSingleResult(tokenDto, 307); // 307 이 무난한 것 같아 선택
+
+    // 회원가입 페이지
+    @GetMapping("/signup")
+    public String getSignup() {
+        return "signup";
+    }
+
+    // 로그인 페이지
+    @GetMapping("/login")
+    public String getLogin() {
+        return "login";
+    }
+
+    // 로그인 결과 페이지
+    @GetMapping("/login/result")
+    public String getLoginResult() {
+        return "loginSuccess";
+    }
+
+    // 로그아웃 결과 페이지
+    @GetMapping("/logout/result")
+    public String getLogout() {
+        return "logout";
+    }
+
+    // 접근 거부 페이지
+    @GetMapping("/denied")
+    public String getDenied() {
+        return "denied";
+    }
+
+    // 내 정보 페이지
+    @GetMapping("/info")
+    public String getMyInfo() {
+        return "info";
     }
 
 }

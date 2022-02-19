@@ -1,4 +1,4 @@
-package com.tistory.workshop6349.workshoptodo.advice.exception;
+package com.tistory.workshop6349.workshoptodo.exception;
 
 public class PostNotFoundException extends RuntimeException {
 
