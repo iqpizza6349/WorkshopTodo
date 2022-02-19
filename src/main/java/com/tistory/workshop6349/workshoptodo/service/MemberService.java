@@ -33,12 +33,12 @@ public class MemberService implements UserDetailsService {
     회원 가입
      */
     @Transactional
-    public Long signUp(MemberSignUpDto memberSignUpDto) {
+    public void signUp(MemberSignUpDto memberSignUpDto) {
         if (memberRepository.existsByEmail(memberSignUpDto.getEmail())) {
             throw new AlreadyEmailExistedException("이미 존재하는 이메일입니다.");
         }
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return memberRepository.save(memberSignUpDto.toEntity(passwordEncoder)).getId();
+        memberRepository.save(memberSignUpDto.toEntity(passwordEncoder));
     }
 
     /*

@@ -22,8 +22,7 @@ public class PostDto {
     private String content;
 
     @NotNull(message = "회원의 ID는 null일 수 없습니다.")
-    @JsonProperty(value = "member_id")
-    private Long memberId;
+    private String writerEmail;
 
     public Post toEntity() {
         return Post.builder()

@@ -11,15 +11,17 @@ public class PostResponseDto {
 
     private final Long id;
     private final String title;
+    private final String content;
     private final boolean checked;
     private final LocalDateTime checkedDate;
-    private final String writer;
+    private final LocalDateTime modifiedDate;
 
     public PostResponseDto(Post post) {
         this.id = post.getId();
         this.title = post.getTitle();
+        this.content = post.getContent();
         this.checked = post.isChecked();
         this.checkedDate = post.getCheckedDate();
-        this.writer = post.getMember().getUsername();
+        this.modifiedDate = post.getModifiedDate();
     }
 }

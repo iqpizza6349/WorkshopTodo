@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -27,8 +29,8 @@ public class PostService {
     글 작성
      */
     @Transactional
-    public Long createTodo(PostDto postDto) {
-        Member member = memberRepository.findById(postDto.getMemberId())
+    public void createTodo(PostDto postDto) {
+        Member member = memberRepository.findByEmail(postDto.getWriterEmail())
                 .orElseThrow(() -> new MemberNotFoundException("회원을 찾지 못하였습니다."));
 
         // 해당 글이 이미 존재하는 지 여부 묻기 -> 해당 작성자에게는 동일한 제목인 todo는 존재해서는 안됨
@@ -39,7 +41,7 @@ public class PostService {
         Post post = postDto.toEntity();
         post.setMember(member);
 
-        return postRepository.save(post).getId();
+        postRepository.save(post);
     }
 
     @Transactional
@@ -69,7 +71,7 @@ public class PostService {
      */
     @Transactional
     public PostResponseDto checkPost(PostDto postDto) {
-        Member member = memberRepository.findById(postDto.getMemberId())
+        Member member = memberRepository.findByEmail(postDto.getWriterEmail())
                 .orElseThrow(() -> new MemberNotFoundException("회원을 찾지 못하였습니다."));
 
         // 해당 글의 작성자가 본인인지 파악
@@ -87,7 +89,7 @@ public class PostService {
      */
     @Transactional
     public void deletePost(PostDto postDto) {
-        Member member = memberRepository.findById(postDto.getMemberId())
+        Member member = memberRepository.findByEmail(postDto.getWriterEmail())
                 .orElseThrow(() -> new MemberNotFoundException("회원을 찾지 못하였습니다."));
 
         // 해당 글의 작성자가 본인인지 파악
@@ -107,6 +109,20 @@ public class PostService {
         Post post = postRepository.findByMemberIdAndTitle(id, title)
                 .orElseThrow(() -> new PostNotFoundException("해당 작성자에게는 해당 제목인 글이 없습니다."));
         return new PostResponseDto(post);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostResponseDto> findAllByMemberId(long id) {
+        List<Post> posts = postRepository.findAllByMemberId(id)
+                .orElseThrow(() -> new PostNotFoundException("해당 작성자에게는 글이 존재하지 않습니다"));
+        return posts.stream().map(PostResponseDto::new).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostResponseDto> findAllByMemberEmailAndTitleContains(String email, String title) {
+        List<Post> posts = postRepository.findAllByMemberEmailAndTitleContaining(email, title)
+                .orElseThrow(() -> new PostNotFoundException("해당 작성자에게는 해당 제목이 있는 글이 존재하지 않습니다."));
+        return posts.stream().map(PostResponseDto::new).collect(Collectors.toList());
     }
 
 }
