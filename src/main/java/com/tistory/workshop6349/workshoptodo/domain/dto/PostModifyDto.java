@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 public class PostModifyDto {
 
     @NotEmpty(message = "제목은 빈칸이 될 수 없습니다.")
-    @Size(min = 4, max = 100, message = "제목의 4자 이상 100자 이하입니다.")
+    @Size(min = 4, max = 50, message = "제목의 4자 이상 50자 이하입니다.")
     @JsonProperty(value = "origin_title")
     private String originTitle;
 

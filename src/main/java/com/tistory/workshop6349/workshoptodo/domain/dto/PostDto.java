@@ -14,11 +14,11 @@ import javax.validation.constraints.Size;
 public class PostDto {
 
     @NotBlank(message = "제목은 빈칸일 수 없습니다.")
-    @Size(min = 4, max = 100)
+    @Size(min = 4, max = 50)
     private String title;
 
     @NotBlank(message = "내용은 빈칸일 수 없습니다.")
-    @Size(min = 4, max = 10000)
+    @Size(min = 4, max = 40)
     private String content;
 
     @NotNull(message = "회원의 ID는 null일 수 없습니다.")

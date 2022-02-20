@@ -9,7 +9,7 @@
     <div>
         <form th:action="@{/todo/search}" method="get">
             <label>
-                <input type="text" th:name="keyword" placeholder="TODO 리스트 제목을 입력해주세요.">
+                <input type="text" th:name="keyword" placeholder="TODO 리스트 제목을 입력해주세요." required>
             </label>
             <button type="submit">검색하기</button>
         </form>

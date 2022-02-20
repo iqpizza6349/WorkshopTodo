@@ -1,4 +1,4 @@
-package com.tistory.workshop6349.workshoptodo.exception;
+package com.tistory.workshop6349.workshoptodo.advice.exception;
 
 public class AlreadyEmailExistedException extends RuntimeException {
 

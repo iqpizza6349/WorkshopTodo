@@ -33,6 +33,11 @@ public class MemberController {
         return "login";
     }
 
+    @GetMapping("/error")
+    public String getError() {
+        return "redirect:/";
+    }
+
     // 로그인 결과 페이지
     @GetMapping("/login/result")
     public String getLoginResult() {

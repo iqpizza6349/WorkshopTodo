@@ -4,12 +4,10 @@ import com.tistory.workshop6349.workshoptodo.domain.Role;
 import com.tistory.workshop6349.workshoptodo.domain.dto.MemberResponseDto;
 import com.tistory.workshop6349.workshoptodo.domain.entity.Member;
 import com.tistory.workshop6349.workshoptodo.domain.dto.MemberSignUpDto;
-import com.tistory.workshop6349.workshoptodo.domain.entity.Post;
 import com.tistory.workshop6349.workshoptodo.domain.repository.MemberRepository;
 import com.tistory.workshop6349.workshoptodo.domain.repository.PostRepository;
-import com.tistory.workshop6349.workshoptodo.exception.AlreadyEmailExistedException;
-import com.tistory.workshop6349.workshoptodo.exception.MemberNotFoundException;
-import com.tistory.workshop6349.workshoptodo.exception.PostNotFoundException;
+import com.tistory.workshop6349.workshoptodo.advice.exception.AlreadyEmailExistedException;
+import com.tistory.workshop6349.workshoptodo.advice.exception.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
@@ -79,7 +77,7 @@ public class MemberService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Member member = memberRepository.findByEmail(email)
-                .orElseThrow(MemberNotFoundException::new);
+                .orElseThrow(() -> new UsernameNotFoundException("해당하는 유저를 찾을 수 없습니다."));
 
         List<GrantedAuthority> authorities = new ArrayList<>();
 
